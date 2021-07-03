@@ -1,0 +1,421 @@
+---
+title: "Data Cleaning and Exploratory Analysis with R"
+author: "Mary Mbugua"
+date: "01/07/2021"
+output: html_document
+---
+# Specifying the Question
+
+**Defining the Question**
+ Identify customers who are most likely to click the AD(online cryptography course) advertised on a Kenyan enterprenuer blog.
+ 
+ **Metric of Success**
+ We will consider our analysis as successful if it will accurately predict whether a customer will click an AD or not.
+ 
+ **Context**
+ A Kenyan entrepreneur has created an online cryptography course and would want to advertise it on her blog. She currently targets audiences originating from various countries. In the past, she ran ads to advertise a related course on the same blog and collected data in the process. She would now like to employ your services as a Data Science Consultant to help her identify which individuals are most likely to click on her ads.
+ 
+ **Experimental Design Taken:**
+ 
+ -Importing the dataset
+ 
+ - Performing Data Cleaning
+ 
+ - Checking outliers
+ 
+ - Performing Univariate analysis
+ 
+- Performing Bivariate analysis
+ 
+ - Performing multivariate analysis
+ 
+ - Conclusions and Recommedations.
+ 
+ **Appropriateness of the available data**
+ 
+ The dataset contains the following fields
+ 
+ -Daily time spent on site
+ 
+  -Age
+ 
+  -Area Income
+ 
+  -Daily Internet usage
+ 
+ - AD Topic line
+ 
+ - City
+ 
+ - Male
+ 
+ - Country
+
+ -Timestamp
+ 
+  -Clicked on Ad
+ 
+ 
+# Importing our dataset
+
+```{r,echo=TRUE}
+advertising=read.csv("http://bit.ly/IPAdvertisingData")
+head(advertising)
+```
+
+**Checking the tail of our dataset**
+
+```{r,echo=TRUE}
+tail(advertising)
+```
+
+**Checking more information about our dataset**
+
+```{r,echo=TRUE}
+str(advertising)
+```
+
+**Checking the dimension of the dataset**
+```{r,echo=TRUE}
+ dim(advertising)
+```
+**Checking the class of the dataset**
+```{r,echo=TRUE}
+ class(advertising)
+```
+# Data Cleaning
+## Missing Data
+**Identifying the missing data in our dataset**
+```{r,echo=TRUE}
+is.na(head(advertising))
+```
+
+**Let's find out the total missing values in each column**
+```{r,echo=TRUE}
+colSums(is.na(advertising))
+```
+
+-This indicates that there are no missing values in our dataset.
+
+## Duplicates
+**Identifying duplicated records in our dataset**
+
+duplicated_rows <-advertising[duplicated(advertising),]
+duplicated_rows
+
+
+**Removing duplicated rows**
+unique_items <- unique(advertising)
+unique_items
+
+
+# Outliers
+**Boxplot**
+
+```{r,echo=TRUE}
+boxplot(advertising$Age,col=c("blue"),xlab="Age",ylab="Frequency",legend=row.names("Age"))
+```
+```{r,echo=TRUE}
+boxplot(advertising$Area.Income,col=c("blue"))
+```
+```{r,echo=TRUE}
+boxplot(advertising$Daily.Internet.Usage,col=c("red"))
+```
+
+-We will not eliminate the outliers as they contain some possible scenarios in the society.They might also affect our analysis if we remove them.
+
+# Univariate Analysis
+
+**Mean**
+
+Finding the mean of the following columns
+-Age
+
+-Daily Time Spent on site
+
+-Area income
+
+_Daily internet usage
+
+```{r,echo=TRUE}
+Age_mean<-mean(advertising$Age)
+Age_mean
+```
+```{r,echo=TRUE}
+Daily.Time.Spent.on.Site_mean<-mean(advertising$Daily.Time.Spent.on.Site)
+Daily.Time.Spent.on.Site_mean
+```
+```{r,echo=TRUE}
+Area.Income_mean<-mean(advertising$Area.Income)
+Area.Income_mean
+```
+```{r,echo=TRUE}
+Daily.Internet.Usage_mean<-mean(advertising$Daily.Internet.Usage)
+Daily.Internet.Usage_mean
+```
+
+**Median**
+
+```{r,echo=TRUE}
+Age_median<-median(advertising$Age)
+Age_median
+```
+```{r,echo=TRUE}
+Daily.Time.Spent.on.Site_median<-median(advertising$Daily.Time.Spent.on.Site)
+Daily.Time.Spent.on.Site_median
+```
+```{r,echo=TRUE}
+Area.Income_median<-median(advertising$Area.Income)
+Area.Income_median
+```
+```{r,echo=TRUE}
+Daily.Internet.Usage_median<-median(advertising$Daily.Internet.Usage)
+Daily.Internet.Usage_median
+```
+
+
+# Mesures of Dispersion
+
+**Maximum**
+
+```{r,echo=TRUE}
+Age_maximum<-max(advertising$Age)
+Age_maximum
+```
+```{r,echo=TRUE}
+Area.Income_max<-max(advertising$Area.Income)
+Area.Income_max
+```
+```{r,echo=TRUE}
+Daily.Internet.Usage_max<-max(advertising$Daily.Internet.Usage)
+Daily.Internet.Usage_max
+```
+```{r,echo=TRUE}
+Daily.Time.Spent.on.Site_max<-max(advertising$Daily.Time.Spent.on.Site)
+Daily.Time.Spent.on.Site_max
+```
+
+**Minimum**
+
+```{r,eacho=TRUE}
+Age_min<-min(advertising$Age)
+Age_min
+```
+
+```{r,echo=TRUE}
+Area.Income_min<-min(advertising$Area.Income)
+Area.Income_min
+```
+
+```{r,echo=TRUE}
+Daily.Internet.Usage_min<-min(advertising$Daily.Internet.Usage)
+Daily.Internet.Usage_min
+```
+
+```{r,echo=TRUE}
+Daily.Time.Spent.on.Site_min<-min(advertising$Daily.Time.Spent.on.Site)
+Daily.Time.Spent.on.Site_min
+```
+
+**Quantiles**
+
+```{r,echo=TRUE}
+Age_quantile<-quantile(advertising$Age)
+Age_quantile
+```
+```{r,echo=TRUE}
+Area.Income_quantile<-quantile(advertising$Area.Income)
+Area.Income_quantile
+```
+
+```{r,echo=TRUE}
+Daily.Internet.Usage_quantile<-quantile(advertising$Daily.Internet.Usage)
+Daily.Internet.Usage_quantile
+```
+
+```{R,Echo=TRUE}
+Daily.Time.Spent.on.Site_quantile<-quantile(advertising$Daily.Time.Spent.On.Site)
+Daily.Time.Spent.on.Site_quantile
+```
+
+**Variance**
+
+```{r,echo=TRUE}
+Age_var<-var(advertising$Age)
+Age_var
+```
+
+```{r,echo=TRUE}
+Area.Income_var<-var(advertising$Area.Income)
+Area.Income_var
+```
+
+```{r,echo=TRUE}
+Daily.Internet.Usage_ver<-var(advertising$Daily.Internet.Usage)
+Daily.Internet.Usage_ver
+```
+
+```{R,Echo=TRUE}
+Daily.Time.Spent.on.Site_var<-var(advertising$Daily.Time.Spent.on.Site)
+Daily.Time.Spent.on.Site_var
+```
+
+**Standard Deviation**
+```{r,echo=TRUE}
+Age_sd<-sd(advertising$Age)
+Age_sd
+```
+
+```{r,echo=TRUE}
+Area.Income_sd<-sd(advertising$Area.Income)
+Area.Income_sd
+```
+
+```{R,echo=TRUE}
+Daily.Internet.Usage_sd<-sd(advertising$Daily.Internet.Usage)
+Daily.Internet.Usage_sd
+```
+
+```{r,echo=TRUE}
+Daily.Time.Spent.on.Site_sd<-sd(advertising$Daily.Time.Spent.on.Site)
+Daily.Time.Spent.on.Site_sd
+```
+
+**BarPlots**
+```{r,echo=TRUE}
+count_clicked<- table(advertising$Clicked.on.Ad)
+barplot(count_clicked,main="Clicked.on.Ad frequency graph", xlab="Clicked.on.Ad",ylab= "frequency",legend=row.names(count_clicked),col=c("brown","red"))
+```
+
+
+**Histograms**
+```{r,echo=TRUE}
+City<-advertising$City
+City_frequency<-table(advertising$City)
+
+hist(City_frequency,col=c("darkmagenta",xlim=c(2,5),ylim=c(0,900)))
+```
+
+-We observe that most cities are mentioned only once(frequency=1) .
+
+
+
+```{r,echo=TRUE}
+count_male<-table(advertising$Male)
+barplot(count_male,main="male frequency graph",xlab="mal",ylab="male frequency",legend=row.names(count_male),col=c("brown","red"))
+```
+-
+
+# Bivariate Analysis
+
+## Covariance
+*Using the cov() function to determine the covariance*
+```{r,echo=TRUE}
+Age<-advertising$Age
+
+Daily.Time.Spent.On.Site<-advertising$Daily.Time.Spent.on.Site
+
+cov(Age,Daily.Time.Spent.On.Site)
+```
+_This indicates a negative relationship btwn age and daily time spent on site.Meaning the more the age,the lesser time spent on the sites of advertising.
+
+
+*Covariance between age and daily internet usage*
+```{r,echo=TRUE}
+Age<-advertising$Age
+Daily.Internet.Usage<-advertising$Daily.Internet.Usage
+cov(Age,Daily.Internet.Usage)
+```
+-his also indicates  negative relationship between age and daily internet ,Thus as the age increases,the daily internet usage reduces.
+
+*Covariance between area income and daily internet usage*
+```{r,echo=TRUE}
+Area.Income<-advertising$Area.Income
+Daily.Internet.Usage<-advertising$Daily.Internet.Usage
+cov(Area.Income,Daily.Internet.Usage)
+```
+
+-This is a positive covariance indicating a positive relationship between the two variables. This means that the area with a high income also has a high internet usage and vice versa.
+
+##Correlation Coefficient
+
+*Correlation between age and daily internet usage*
+```{r,echo=TRUE}
+Age<-advertising$Age
+
+Daily.Internet.Usage<-advertising$Daily.Internet.Usage
+
+cor(Age,Daily.Internet.Usage)
+```
+
+-This indicates a negative linear relationship between the variables.
+
+*Correlation between age and daily time spent on site*
+```{r,echo=TRUE}
+Age<-advertising$Age
+
+Daily.Time.Spent.on.Site<-advertising$Daily.Time.Spent.On.Site
+
+cor(Age,Daily.Time.Spent.On.Site)
+```
+
+-This also indicates a negative linear relationship between age and the daily time spent on sites.
+
+*Correlation between age and area income**
+```{r,echo=TRUE}
+Age<-advertising$Age
+
+Area.Income<-advertising$Area.Income
+
+cor(Age,Area.Income)
+```
+
+-This indicates a negative linear relationship too.Perhaps because young people tend to be attracted to high income areas due to high disposable income.
+
+*Correlation between area income and daily internet usage*
+```{r,echo=TRUE}
+Area.Income<-advertising$Area.Income
+
+Daily.Internet.Usage<-advertising$Daily.Internet.Usage
+
+cor(Area.Income,Daily.Internet.Usage)
+```
+
+-This indicates a positive linear relationship between area income and daily internet usage.
+
+# Multivariate Analysis
+
+##Scatterplots
+-We shall create a scatter plot to visualize the trend between area income and daily internet usage
+```{r,echo=TRUE}
+Area.Income<-advertising$Area.Income
+
+Daily.Internet.usage<-advertising$Daily.Internet.Income
+
+plot(Area.Income,Daily.Internet.Usage,xlab="Area.Income",ylab="Daily.Internet.Usage",col=c("green"))
+```
+
+# Conclusions
+
+-The most likely individuals to click on her AD are young people.
+
+-The areas with the most income are areas where most individuals are highly likely to click on her Ad.
+
+-Males are slightly unlikely to click on her AD based on the males histograph.
+
+-There is no evidence that people from certain countries/city have higher chances of clicking her AD.(Anyone can click on her AD irrespective of the country/city)
+
+-There's a 50-50 chance of either clicking or not clicking her AD, based on the bargraph of those who clicked the AD.
+
+
+#Recommedations
+
+-The entreprenuer should target advertising on areas with high income.
+
+-She should also target young people since they're the ones who spents most time on sites.
+
+
+
+
+
+
